@@ -15,7 +15,7 @@ class DatabaseConnector:
 
     def init_db_engine(self):
         credentials=self.read_db_creds()
-        RDS_HOST=credentials.get("RDS_HOST")#
+        RDS_HOST=credentials.get("RDS_HOST")
         RDS_PASSWORD=credentials.get("RDS_PASSWORD")
         RDS_USER=credentials.get("RDS_USER")
         RDS_DATABASE=credentials.get("RDS_DATABASE")
@@ -23,12 +23,6 @@ class DatabaseConnector:
 
         engine = create_engine(f"postgresql://{RDS_USER}:{ RDS_PASSWORD}@{RDS_HOST}:{RDS_PORT}/{RDS_DATABASE}")
         engine.execution_options(isolation_level='AUTOCOMMIT').connect()
-        # with engine.connect() as connection:
-        #     connection.execute(text("SET transaction_read_only = off;"))
-        #     print("Connected and ensured write mode is active.")
-        with engine.connect() as connection:
-            connection.execute(text("SET SESSION CHARACTERISTICS AS TRANSACTION READ WRITE;"))
-        
     
         return engine
     
@@ -40,8 +34,18 @@ class DatabaseConnector:
             return [table[0] for table in tables]
 
     def upload_to_db(self, df, table_name):
-        engine = self.init_db_engine()
-        df.to_sql(table_name, con=engine, if_exists='replace', index=False)
+        credentials=self.read_db_creds()
+        DATABASE_TYPE = credentials.get("DATABASE_TYPE")
+        DBAPI = credentials.get("DBAPI")
+        HOST = credentials.get("HOST")
+        USER = credentials.get("USER")
+        PASSWORD = credentials.get("PASSWORD")
+        DATABASE = credentials.get("DATABASE")
+        PORT = credentials.get("PORT")
+        engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
+        
+        df.to_sql(table_name, engine, if_exists='replace', index=False)
+        print(f"Data uploaded successfully to {table_name}.")
        
 databaseconn=DatabaseConnector()
 databaseconn.list_db_tables()

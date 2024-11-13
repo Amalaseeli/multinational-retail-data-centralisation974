@@ -1,1 +1,1 @@
-{"last_found_secrets": [{"match": "967a3f47ee97aef69013e50d7dae6ce4e7b3c10ad8e1eea16741a1b47d46d133", "name": "Generic Database Assignment - c:\\Users\\Thenu\\Documents\\amala\\multinational-retail-data-centralisation974\\connection.py"}]}
+{"last_found_secrets": [{"name": "Generic Password - c:\\Users\\Thenu\\Documents\\amala\\multinational-retail-data-centralisation974\\database_utils.py", "match": "65f623158e18be1883edcaf92152251ce729ba1d11416c358082b51aac0efd73"}]}
