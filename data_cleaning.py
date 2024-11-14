@@ -1,6 +1,7 @@
 import pandas as pd
 from database_utils import DatabaseConnector
 import numpy as np
+import re
 class DataCleaning:
     """ methods to clean data from each of the data sources"""
     
@@ -20,8 +21,6 @@ class DataCleaning:
             print(non_date_entries)
         else:
             print("No non-date entries found in 'join_date' column.")
-
-        
         print(df.shape)
         return df
     
@@ -64,8 +63,66 @@ class DataCleaning:
         df['staff_numbers'] = df['staff_numbers'].str.replace(r'\D', '', regex=True)
         print(len(df))
         return df
-
-
     
+    def convert_product_weights(self,df):
+        df=df.drop('Unnamed: 0', axis=1)
+        df=df.replace('Null', np.nan)
+        df.dropna(axis=0, how="all", inplace=True)
+        print(df.info)
+        print(len(df))
+        
+        conversion_factors={
+            'kg':1,
+            'g':0.001,
+            'ml':0.001,
+            'oz':0.0283495,
+            'lb':0.453592
+        }
+
+        def convert_to_kg(weight):
+
+            match=re.match(r"([\d\.]+)\s*(kg|g|ml|oz|lb)?", str(weight).lower().strip())
+            if match:
+                value, unit = match.groups()
+                value = float(value)
+
+                if unit in conversion_factors:
+                    return value * conversion_factors[unit]
+                else:
+                    print(f"Unknown unit '{unit}' encountered.")
+                    return None
+            
+        df['weight']=df['weight'].apply(convert_to_kg)
+        print(len(df))
+       
+        return df
+        
+    def clean_products_data(self,df):
+        price_pattern=r"^£\d+(\.\d{2})?$"
+        df['product_price']=df['product_price'].astype(str)
+        df= df[df['product_price'].str.match(price_pattern)]
+        print(df.head())
+        print(len(df))
+        return df
+    
+    def clean_orders_data(self,df):
+        print(df.columns)
+        df=df.drop(['first_name', 'last_name', '1'], axis=1)
+        print(df.columns)
+        print(len(df))
+        return df
+    
+    def clean_date_event(self,df):
+        df = df.replace('NULL', np.nan)
+        df.dropna(axis=0, how="all", inplace=True)
+        df.to_csv('date_event.csv')
+       
+        df[['month', 'year', 'day']]=df[['month', 'year', 'day']].apply(pd.to_numeric, errors="coerce")
+        df.dropna(subset=['month', 'year', 'day'], inplace=True)
+        print(df.info())
+        print(len(df))
+        return df
+
+
 data_cleaner = DataCleaning()
 
