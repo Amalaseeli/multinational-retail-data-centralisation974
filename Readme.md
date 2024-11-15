@@ -68,5 +68,13 @@ In this task the store data using an API.
 In this task we extract the information for each product the company currently sells stored in CSV format in AWS S3 bucket.
 > boto3 package will used to download and extract data from AWS s3 bucket.
 After extracting data in the datacleaning class contain two methods.
-- **convert_product_weights:**
-- **clean_products_data:**
+- **convert_product_weights:** Remove Excess Characters and standardize all values to kilograms.
+- **clean_products_data:** Clean extracted products data.
+- Upload the cleaned data to the PostgreSQL database in `dim_products` table.
+
+### Task 6 : Retrieve and clean the orders table.
+In this task, extract the orders data using the `read_rds_table` method we created earlier, clean it for further use.
+- After clean orders data upload the data to PostgreSQL database in `orders_table` table.
+
+### Task 7 : Retrieve and clean the orders date events data.
+In this task, we will extract data stored in a JSON format from an AWS S3 bucket, clean it for further use, and then upload the cleaned data to a PostgreSQL table named `dim_date_times`.
