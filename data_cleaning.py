@@ -8,7 +8,6 @@ class DataCleaning:
     def clean_user_data(self, df):
         df=df.drop('index', axis=1)
         df = df.replace("NULL", np.nan)
-       
         df=df.convert_dtypes()
         df.dropna(axis=0, how='all', inplace=True)
         df['join_date_converted'] = pd.to_datetime(df['join_date'],format='mixed' , errors='coerce')
