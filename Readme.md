@@ -78,3 +78,7 @@ In this task, extract the orders data using the `read_rds_table` method we creat
 
 ### Task 7 : Retrieve and clean the orders date events data.
 In this task, we will extract data stored in a JSON format from an AWS S3 bucket, clean it for further use, and then upload the cleaned data to a PostgreSQL table named `dim_date_times`.
+
+### Milestone 2
+### Create the database schema
+In this task devlop the star-based schema of the database and convert the column in to the correct data types.Create the primary key and foreign key constraint.

@@ -25,7 +25,6 @@ class DataCleaning:
     
     def clean_card_data(self, dfs):
         dfs.to_csv('card_data.csv')
-        dfs=dfs.drop('card_number expiry_date', axis=1)
         dfs = dfs.loc[:, ~dfs.columns.str.contains('^Unnamed')]
         dfs = dfs.replace("NULL", np.nan)
         print(dfs.isnull().sum())

@@ -32,8 +32,8 @@ class DatabaseConnector:
             tables = conn.execute(text("SELECT table_name FROM information_schema.tables WHERE table_schema='public'"))
             print(tables)
             return [table[0] for table in tables]
-
-    def upload_to_db(self, df, table_name):
+        
+    def init_local_db_engine(self):
         credentials=self.read_db_creds()
         DATABASE_TYPE = credentials.get("DATABASE_TYPE")
         DBAPI = credentials.get("DBAPI")
@@ -43,9 +43,25 @@ class DatabaseConnector:
         DATABASE = credentials.get("DATABASE")
         PORT = credentials.get("PORT")
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
-        
+        return engine
+
+
+    def upload_to_db(self, df, table_name):
+        engine = self.init_local_db_engine()
         df.to_sql(table_name, engine, if_exists='replace', index=False)
         print(f"Data uploaded successfully to {table_name}.")
-       
+        return engine
+    
+    def read_postgreSQL_table(self):
+        engine = self.init_local_db_engine()
+        with engine.connect() as conn:
+            results = conn.execute(text("SELECT table_name FROM information_schema.tables WHERE table_schema='public'"))
+            tables= results.fetchall()
+            tables=[table[0] for table in tables]
+            #['dim_users', 'dim_store_details', 'dim_card_details', 'dim_products', 'orders_table', 'dim_date_times']
+            print(tables)
+            return tables 
+
 databaseconn=DatabaseConnector()
-databaseconn.list_db_tables()
+#databaseconn.list_db_tables()
+databaseconn.read_postgreSQL_table()
