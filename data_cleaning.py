@@ -13,19 +13,11 @@ class DataCleaning:
         df['join_date_converted'] = pd.to_datetime(df['join_date'],format='mixed' , errors='coerce')
         #non_date_entries = df[df['join_date_converted'].isna()]['join_date']
         df = df.dropna(subset=['join_date_converted'])
-     
-    # Print the non-date entries
-        # if not non_date_entries.empty:
-        #     print("Non-date entries in 'join_date' column:")
-        #     print(non_date_entries)
-        # else:
-        #     print("No non-date entries found in 'join_date' column.")
         print(df.shape)
-        df.to_csv('cleaned_user_data.csv')
+        df.to_csv('Dataset/clean_dataset/cleaned_user_data.csv')
         return df
     
     def clean_card_data(self, dfs):
-        dfs.to_csv('card_data.csv')
         dfs = dfs.loc[:, ~dfs.columns.str.contains('^Unnamed')]
         dfs = dfs.replace("NULL", np.nan)
         print(dfs.isnull().sum())
@@ -42,7 +34,7 @@ class DataCleaning:
         non_numeric_rows = dfs[dfs['card_number_numeric'].isna() & dfs['card_number'].notna()]
         print(non_numeric_rows['card_number'].to_list())
         non_numeric_df=pd.DataFrame(non_numeric_rows)
-        non_numeric_df.to_csv('non.csv')
+        
         dfs.drop(non_numeric_rows.index, axis=0, inplace=True)
         len(non_numeric_rows)
         dfs['date_payment_confirmed'] = pd.to_datetime(dfs['date_payment_confirmed'], format="mixed", errors="coerce")
@@ -52,6 +44,7 @@ class DataCleaning:
         print(dfs.info())
         print(len(dfs))
         print(dfs.head())
+        dfs.to_csv('Dataset/clean_dataset/card_data.csv')
         return dfs
     
     def  called_clean_store_data(self,df):
@@ -61,6 +54,8 @@ class DataCleaning:
         df.dropna(subset=['opening_date'], inplace=True)
         df['staff_numbers'] = df['staff_numbers'].str.replace(r'\D', '', regex=True)
         print(len(df))
+        df.to_csv('Dataset/clean_dataset/store_data.csv')
+
         return df
     
     def convert_product_weights(self,df):
@@ -102,6 +97,8 @@ class DataCleaning:
         df= df[df['product_price'].str.match(price_pattern)]
         print(df.head())
         print(len(df))
+        df.to_csv('Dataset/clean_dataset/product_data.csv')
+
         return df
     
     def clean_orders_data(self,df):
@@ -109,18 +106,18 @@ class DataCleaning:
         df=df.drop(['first_name', 'last_name', '1'], axis=1)
         print(df.columns)
         print(len(df))
-        df.to_csv('cleaned_orders_table.csv')
+        df.to_csv('Dataset/clean_dataset/orders_data.csv')
         return df
     
     def clean_date_event(self,df):
         df = df.replace('NULL', np.nan)
         df.dropna(axis=0, how="all", inplace=True)
-        df.to_csv('date_event.csv')
-       
+            
         df[['month', 'year', 'day']]=df[['month', 'year', 'day']].apply(pd.to_numeric, errors="coerce")
         df.dropna(subset=['month', 'year', 'day'], inplace=True)
         print(df.info())
         print(len(df))
+        df.to_csv('Dataset/clean_dataset/date_event.csv')
         return df
 
 

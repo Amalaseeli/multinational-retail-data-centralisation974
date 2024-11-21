@@ -255,10 +255,3 @@ WHERE user_uuid NOT IN (
     SELECT user_uuid
     FROM dim_users
 );
-
-
-select count(*)
-from dim_users
-
-select count(*)
-from orders_table
