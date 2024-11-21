@@ -80,22 +80,23 @@ if __name__ == "__main__":
     #tables = db_connector.list_db_tables()
     #['legacy_store_details', 'dim_card_details', 'legacy_users', 'orders_table']
     #print(tables)
-    # user_data_table = "legacy_users"  
+    user_data_table = "legacy_users"  
     # orders_data="orders_table"
 
-    # user_data_df = data_extractor.read_rds_table(db_connector, user_data_table)
-    # order_df=data_extractor.read_rds_table(db_connector, orders_data)
+    user_data_df = data_extractor.read_rds_table(db_connector, user_data_table)
+    #order_df=data_extractor.read_rds_table(db_connector, orders_data)
     #order_df.to_csv('order.csv')
     # print(order_df.head())
     # print(user_data_df.shape)
-    dfs = data_extractor. retrieve_pdf_data()
-   
-    # cleaned_user_data_df = data_cleaner.clean_user_data(user_data_df)
+    #dfs = data_extractor. retrieve_pdf_data()
+    print(user_data_df.head())
+    #db_connector.upload_to_db(user_data_df, "dim_users")
+    cleaned_user_data_df = data_cleaner.clean_user_data(user_data_df)
     # cleaned_user_data_df.info()
-    # db_connector.upload_to_db(cleaned_user_data_df, "dim_users")
-    data_extractor.retrieve_pdf_data()
-    cleaned_card_data_df = data_cleaner.clean_card_data(dfs)
-    db_connector.upload_to_db(cleaned_card_data_df, "dim_card_details")
+    db_connector.upload_to_db(cleaned_user_data_df, "dim_users")
+    # data_extractor.retrieve_pdf_data()
+    # cleaned_card_data_df = data_cleaner.clean_card_data(dfs)
+    # db_connector.upload_to_db(cleaned_card_data_df, "dim_card_details")
     # num_of_stores=data_extractor.list_num_of_sores(header)
     # store_df=data_extractor.retrieve_stores_data(num_of_stores, header)
     # cleaned_store_data_df=data_cleaner.called_clean_store_data(store_df)

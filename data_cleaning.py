@@ -11,15 +11,15 @@ class DataCleaning:
         df=df.convert_dtypes()
         df.dropna(axis=0, how='all', inplace=True)
         df['join_date_converted'] = pd.to_datetime(df['join_date'],format='mixed' , errors='coerce')
-        non_date_entries = df[df['join_date_converted'].isna()]['join_date']
+        #non_date_entries = df[df['join_date_converted'].isna()]['join_date']
         df = df.dropna(subset=['join_date_converted'])
      
     # Print the non-date entries
-        if not non_date_entries.empty:
-            print("Non-date entries in 'join_date' column:")
-            print(non_date_entries)
-        else:
-            print("No non-date entries found in 'join_date' column.")
+        # if not non_date_entries.empty:
+        #     print("Non-date entries in 'join_date' column:")
+        #     print(non_date_entries)
+        # else:
+        #     print("No non-date entries found in 'join_date' column.")
         print(df.shape)
         return df
     

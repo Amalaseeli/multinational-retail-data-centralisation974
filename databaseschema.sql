@@ -239,6 +239,13 @@ ADD CONSTRAINT fk_user_uuid
 FOREIGN KEY (user_uuid)
 REFERENCES dim_users (user_uuid);
 
+SELECT COUNT(DISTINCT (ord.user_uuid))
+FROM orders_table ord 
+WHERE NOT EXISTS (
+    SELECT * FROM dim_users
+    WHERE dim_users.user_uuid= ord.user_uuid
+)
+
 select count(*)
 from dim_users
 
