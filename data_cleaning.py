@@ -21,6 +21,7 @@ class DataCleaning:
         # else:
         #     print("No non-date entries found in 'join_date' column.")
         print(df.shape)
+        df.to_csv('cleaned_user_data.csv')
         return df
     
     def clean_card_data(self, dfs):
@@ -108,6 +109,7 @@ class DataCleaning:
         df=df.drop(['first_name', 'last_name', '1'], axis=1)
         print(df.columns)
         print(len(df))
+        df.to_csv('cleaned_orders_table.csv')
         return df
     
     def clean_date_event(self,df):

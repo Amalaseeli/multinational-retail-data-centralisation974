@@ -81,15 +81,17 @@ if __name__ == "__main__":
     #['legacy_store_details', 'dim_card_details', 'legacy_users', 'orders_table']
     #print(tables)
     user_data_table = "legacy_users"  
-    # orders_data="orders_table"
+    orders_data="orders_table"
 
     user_data_df = data_extractor.read_rds_table(db_connector, user_data_table)
-    #order_df=data_extractor.read_rds_table(db_connector, orders_data)
+   
+
+    print(len(user_data_df))
+    order_df=data_extractor.read_rds_table(db_connector, orders_data)
     #order_df.to_csv('order.csv')
     # print(order_df.head())
     # print(user_data_df.shape)
     #dfs = data_extractor. retrieve_pdf_data()
-    print(user_data_df.head())
     #db_connector.upload_to_db(user_data_df, "dim_users")
     cleaned_user_data_df = data_cleaner.clean_user_data(user_data_df)
     # cleaned_user_data_df.info()
@@ -106,8 +108,8 @@ if __name__ == "__main__":
     # products_df = data_cleaner.clean_products_data(cleaned_product_df)
     # db_connector.upload_to_db(products_df, "dim_products")
 
-    # orders_df=data_cleaner.clean_orders_data(order_df)
-    # db_connector.upload_to_db(orders_df, "orders_table")
+    order_data_df=data_cleaner.clean_orders_data(order_df)
+    db_connector.upload_to_db(order_data_df, "orders_table")
 
     # date_event_df=data_extractor.extract_date_events()
     # date_event_df=data_cleaner.clean_date_event(date_event_df)

@@ -12,7 +12,7 @@ FROM orders_table
 ALTER TABLE orders_table
     DROP COLUMN level_0,
     ALTER COLUMN date_uuid TYPE UUID USING date_uuid::uuid,
-    ALTER COLUMN user_uuid TYPE UUID USING date_uuid::uuid,
+    ALTER COLUMN user_uuid TYPE UUID USING user_uuid::uuid,
     ALTER COLUMN card_number TYPE VARCHAR(19),
     ALTER COLUMN store_code TYPE VARCHAR(12),
     ALTER COLUMN product_code TYPE VARCHAR(11),
@@ -239,12 +239,23 @@ ADD CONSTRAINT fk_user_uuid
 FOREIGN KEY (user_uuid)
 REFERENCES dim_users (user_uuid);
 
-SELECT COUNT(DISTINCT (ord.user_uuid))
+SELECT DISTINCT(user_uuid)
+FROM orders_table
+
+SELECT DISTINCT (ord.user_uuid)
 FROM orders_table ord 
 WHERE NOT EXISTS (
-    SELECT * FROM dim_users
+    SELECT 1 FROM dim_users
     WHERE dim_users.user_uuid= ord.user_uuid
 )
+
+SELECT user_uuid
+FROM orders_table
+WHERE user_uuid NOT IN (
+    SELECT user_uuid
+    FROM dim_users
+);
+
 
 select count(*)
 from dim_users
