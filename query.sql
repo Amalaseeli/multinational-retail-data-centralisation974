@@ -26,6 +26,7 @@ SET location = CASE
 	ELSE 'offline'
 	END;
 
+-- find out howmany sales are coming from online
 SELECT count(product_quantity) AS number_of_sales, 
 	SUM(product_quantity) AS product_quantity_count,
 	location
@@ -33,6 +34,7 @@ FROM orders_table
 GROUP BY location
 ORDER BY number_of_sales ASC;
 
+-- find percentage of sales come through each type of store
 WITH revenue_per_store_type AS (
     SELECT 
         ds.store_type, 
@@ -58,6 +60,7 @@ FROM revenue_per_store_type rps
 CROSS JOIN total_summary ts
 ORDER BY "sales_made(%)" DESC;
 
+-- which month in each year produced the highest cost of sales
 SELECT sum(d.product_price *ot.product_quantity) AS total_sales , year, month
 FROM public.dim_date_times t
 LEFT JOIN orders_table ot
@@ -67,12 +70,14 @@ ON ot.product_code = d.product_code
 GROUP BY month, year
 ORDER BY total_sales DESC;
 
+--find staff headcount
 SELECT sum(staff_numbers) as total_staff_numbers,
 	country_code
 FROM public.dim_store_details
 GROUP BY country_code
 ORDER BY total_staff_numbers DESC;
 
+--which german store type is the selling most 
 WITH revenue_per_store_type AS (
     SELECT 
         ds.store_type, 
@@ -98,6 +103,7 @@ FROM revenue_per_store_type rps;
 ALTER TABLE dim_date_times
 ADD COLUMN full_timestamp TIMESTAMP; 
 
+-- Create full timestamp
 UPDATE dim_date_times
 SET full_timestamp = TO_TIMESTAMP(
 (
@@ -107,6 +113,7 @@ CONCAT(year, '-',month,'-',day,'-',timestamp)
  'YYYY-MM-DD HH24:MI:SS'
 );
 
+-- find how quickly is the company making sales
 WITH timeinterval AS(
 SELECT
     year,

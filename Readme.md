@@ -82,3 +82,18 @@ In this task, we will extract data stored in a JSON format from an AWS S3 bucket
 ### Milestone 2
 ### Create the database schema
 In this task devlop the star-based schema of the database and convert the column in to the correct data types.Create the primary key and foreign key constraint.
+
+### Milestone 3
+### Querying the data
+Find out business answering for follwing query.
+- find how many stores does busisness have and which country?
+- Which location currently have many stores?
+- Which month produce large amount of sales?
+- find out howmany sales are coming from online?
+- find percentage of sales come through each type of store?
+- which month in each year produced the highest cost of sales?
+- find staff headcount?
+- which german store type is the selling most?
+- Find how quickly is the company making sales?
+
+
