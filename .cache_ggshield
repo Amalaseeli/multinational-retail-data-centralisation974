@@ -1,1 +1,1 @@
-{"last_found_secrets": [{"match": "4aeccbf459bcb89e9be8126962204fd1b6b88be74dc5db3ef93301b6c88b54b2", "name": "X-API-Key Secret - c:\\Users\\Thenu\\Documents\\amala\\multinational-retail-data-centralisation974\\data_extraction.py"}]}
+{"last_found_secrets": [{"name": "X-API-Key Secret - c:\\Users\\Thenu\\Documents\\amala\\multinational-retail-data-centralisation974\\script.py", "match": "4aeccbf459bcb89e9be8126962204fd1b6b88be74dc5db3ef93301b6c88b54b2"}]}

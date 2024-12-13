@@ -81,7 +81,7 @@ In this task, we will extract data stored in a JSON format from an AWS S3 bucket
 
 ### Milestone 2
 ### Create the database schema
-In this task devlop the star-based schema of the database and convert the column in to the correct data types.Create the primary key and foreign key constraint.
+In this task devlop the star-based schema of the database and convert the column in to the correct data types.Create the primary key and foreign key constraint.Here the fact table is orders_table.
 
 ### Milestone 3
 ### Querying the data

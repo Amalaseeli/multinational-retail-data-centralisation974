@@ -121,5 +121,3 @@ class DataCleaning:
         return df
 
 
-data_cleaner = DataCleaning()
-
