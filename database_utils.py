@@ -61,7 +61,3 @@ class DatabaseConnector:
             #['dim_users', 'dim_store_details', 'dim_card_details', 'dim_products', 'orders_table', 'dim_date_times']
             print(tables)
             return tables 
-
-databaseconn=DatabaseConnector()
-#databaseconn.list_db_tables()
-databaseconn.read_postgreSQL_table()
